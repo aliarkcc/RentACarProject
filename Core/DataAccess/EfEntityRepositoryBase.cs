@@ -41,13 +41,18 @@ namespace Core.DataAccess
             }
         }
 
-        public List<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null)
+        public List<TEntity> GetAll(Expression<Func<TEntity, bool>> filter=null)
         {
             using (TContext db = new TContext())
             {
-                return filter == null
-                    ? db.Set<TEntity>().ToList()
-                    : db.Set<TEntity>().Where(filter).ToList();
+                if(filter==null)
+                {
+                    return db.Set<TEntity>().ToList();
+                }
+                else
+                {
+                    return db.Set<TEntity>().Where(filter).ToList();
+                }
             }
         }
 

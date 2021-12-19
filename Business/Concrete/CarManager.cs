@@ -15,6 +15,7 @@ using Entities.DTOs;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace Business.Concrete
@@ -59,11 +60,20 @@ namespace Business.Concrete
             return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == id),Messages.CarListed);
         }
 
-        public IDataResult<List<CarDetailDto>> GetCarDetailDtos()
+        public IDataResult<List<CarDetailDto>> GetCarDetailBrandDtos(int id)
         {
-            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetailDto(),Messages.CarListed);
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetailBrandDto(id), Messages.CarListed);
         }
 
+        public IDataResult<List<CarDetailDto>> GetCarDetailColorsDtos(int id)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetailColorDto(id), Messages.CarListed);
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailDtos(Expression<Func<CarDetailDto, bool>> filter = null)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetailDto(filter),Messages.CarListed);
+        }
         public IDataResult<List<Car>> GetCarsByBrandId(int id)
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == id),Messages.CarListed);

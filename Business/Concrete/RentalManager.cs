@@ -6,8 +6,10 @@ using Core.Aspect.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace Business.Concrete
@@ -41,8 +43,16 @@ namespace Business.Concrete
 
         public IDataResult<List<Rental>> GetAll()
         {
-            return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(),Messages.RentalsListed);
+                return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(), Messages.RentalsListed);
+            
         }
+
+        public IDataResult<List<RentalDetailDto>> GetRentalDetailDtos()
+        {
+            var values = _rentalDal.GetRentalDetailDtos();
+            return new SuccessDataResult<List<RentalDetailDto>>(values, Messages.RentalDetailDtosListed);
+        }
+
         [ValidationAspect(typeof(RentalValidator))]
         public IResult Update(Rental rental)
         {
